@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,7 +60,7 @@ namespace PhoneLogProcessor
 
         private List<Area> ReadArea(string path)
         {
-            List<Area> readedList = new List<Area>();
+            List<Area> readedAreaList = new List<Area>();
 
             foreach (string line in File.ReadLines(path, Encoding.Latin1))
             {
@@ -73,15 +72,15 @@ namespace PhoneLogProcessor
                 int.TryParse(columns[0], out int countryId);
                 int.TryParse(columns[1], out int districtId);
 
-                readedList.Add(new Area(countryId, districtId, columns[2]));
+                readedAreaList.Add(new Area(countryId, districtId, columns[2]));
             }
 
-            return readedList;
+            return readedAreaList;
         }
 
         private List<Country> ReadCountry(string path)
         {
-            List<Country> readedList = new List<Country>();
+            List<Country> readedCountryList = new List<Country>();
 
             foreach (string line in File.ReadLines(path, Encoding.Latin1))
             {
@@ -92,15 +91,15 @@ namespace PhoneLogProcessor
 
                 int.TryParse(columns[0], out int countryId);
 
-                readedList.Add(new Country(countryId, columns[1]));
+                readedCountryList.Add(new Country(countryId, columns[1]));
             }
 
-            return readedList;
+            return readedCountryList;
         }
 
         private List<CallData> ReadCallData(string path)
         {
-            List<CallData> readedList = new List<CallData>();
+            List<CallData> readedCallDataList = new List<CallData>();
 
             foreach (string line in File.ReadLines(path))
             {
@@ -113,10 +112,10 @@ namespace PhoneLogProcessor
                 DateTime callTime = DateTime.Parse(columns[1]);
                 int.TryParse(columns[4], out int callDuration);
 
-                readedList.Add(new CallData(callDate, callTime, columns[2], columns[3], callDuration));
+                readedCallDataList.Add(new CallData(callDate, callTime, columns[2], columns[3], callDuration));
             }
 
-            return readedList;
+            return readedCallDataList;
         }
 
         private void CreateBackUp(string path) => File.Move(Path.Combine(path, OUTPUT), Path.Combine(path, $"{OUTPUT_BACK}_{File.GetCreationTime(Path.Combine(path, OUTPUT)):HH_mm_ss}.txt"));

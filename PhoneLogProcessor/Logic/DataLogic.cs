@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PhoneLogProcessor.Logic
 {
@@ -44,25 +43,23 @@ namespace PhoneLogProcessor.Logic
                 var x = GetCountry(item);
                 var y = GetArea(x, item);
 
-                if (list.Any(r => r.CountryId == x.Item1.CountryId && r.DistrictId == y.DistrictId))
-                    list.Single(r => r.CountryId == x.Item1.CountryId && r.DistrictId == y.DistrictId).CallDuring += item.CallDuration;
+                if (list.Any(r => r.CountryId == x.country.CountryId && r.DistrictId == y.DistrictId))
+                    list.Single(r => r.CountryId == x.country.CountryId && r.DistrictId == y.DistrictId).CallDuring += item.CallDuration;
                 else
                     list.Add(new ProcessedCallData()
                     {
-                        CountryName = x.Item1.Name,
+                        CountryName = x.country.Name,
                         DistrictName = y.Name,
-                        CountryId = x.Item1.CountryId,
+                        CountryId = x.country.CountryId,
                         DistrictId = y.DistrictId,
                         CallDuring = item.CallDuration
                     });
             }
 
-            var vmi = list.OrderByDescending(x => x.CountryName).ThenBy(y => y.DistrictName).ToList();
-
-            return (List<ProcessedCallData>)vmi;
+            return (List<ProcessedCallData>)list.OrderByDescending(x => x.CountryName).ThenBy(y => y.DistrictName).ToList();
         }
 
-        private (Country, int) GetCountry(CallData data)
+        private (Country country, int length) GetCountry(CallData data)
         {
             string number = data.CalledPersonPhoneNumber.Trim('+');
 
@@ -71,9 +68,7 @@ namespace PhoneLogProcessor.Logic
                 string numberCountry = number.Substring(0, length);
 
                 if (Countries.Any(x => x.CountryId.ToString() == numberCountry))
-                {
                     return (Countries.Single(x => x.CountryId.ToString() == numberCountry), length);
-                }
             }
 
             throw new Exception();
@@ -84,14 +79,12 @@ namespace PhoneLogProcessor.Logic
             var areas = Areas.Where(x => countryTuple.country.CountryId == x.CountryId);
             string number = data.CalledPersonPhoneNumber.Trim('+').Substring(countryTuple.length);
 
-            foreach (var count in areaLengths)
+            foreach (var areaLength in areaLengths)
             {
-                string numberArea = number.Substring(0, count);// Take(count).ToString();
+                string numberArea = number.Substring(0, areaLength);
 
                 if (areas.Any(x => x.DistrictId.ToString() == numberArea))
-                {
                     return areas.Single(x => x.DistrictId.ToString() == numberArea);
-                }
             }
 
             throw new Exception();

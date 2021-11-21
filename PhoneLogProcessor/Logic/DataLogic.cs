@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PhoneLogProcessor.Logic
 {
-    public class DataLogic
+    public class DataLogic : IDataLogic
     {
         private List<Country> Countries;
         private List<Area> Areas;

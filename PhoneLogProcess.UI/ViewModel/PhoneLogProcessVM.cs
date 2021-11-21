@@ -13,7 +13,9 @@ namespace PhoneLogProcess.UI.ViewModel
     {
         private readonly IDataLogic logic;
         private string inputPath;
+        public string InputPath { get { return inputPath; } set { inputPath = value; OnPropertyChanged(); } }
         private string outputPath;
+        public string OutputPath { get { return outputPath; } set { outputPath = value; OnPropertyChanged(); } }
 
         public DelegateCommand StartProcessCommand { get; set; }
         public DelegateCommand SelectInputDirectoryCommand { get; set; }
@@ -22,6 +24,8 @@ namespace PhoneLogProcess.UI.ViewModel
         public PhoneLogProcessVM(IDataLogic logic)
         {
             this.logic = logic;
+            InputPath = "N/A";
+            OutputPath = "N/A";
         }
 
         protected override void InitializeCommands()
@@ -38,7 +42,7 @@ namespace PhoneLogProcess.UI.ViewModel
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                    outputPath = fbd.SelectedPath;
+                    OutputPath = fbd.SelectedPath;
             }
         }
 
@@ -49,7 +53,7 @@ namespace PhoneLogProcess.UI.ViewModel
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                    inputPath = fbd.SelectedPath;
+                    InputPath = fbd.SelectedPath;
             }
         }
 

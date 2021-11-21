@@ -5,30 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhoneLogProcess.UI"
         mc:Ignorable="d"
-        Title="Phone Log Process" Height="250" Width="300"
+        Title="Phone Log Process" Height="220" Width="350"
         ResizeMode="NoResize">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <StackPanel>
+        <Label Content="Input directory" FontWeight="Bold"/>
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Select input directory"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="Browse" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="30"
-                    Command="{Binding SelectInputDirectoryCommand}"/>
-            <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Select output directory"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="Browse" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="30"
-                    Command="{Binding SelectOutputDirectoryCommand}"/>
+            <Button Content="Browse" Width="100" Height="30" Grid.Column="0" Command="{Binding SelectInputDirectoryCommand}"/>
+            <Label Content="{Binding InputPath}" Grid.Column="1"/>
         </Grid>
-        <Button Grid.Row="1" Content="Process" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="30"
+        <Label Content="Output directory" FontWeight="Bold"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Browse" Width="100" Height="30" Grid.Column="0" Command="{Binding SelectOutputDirectoryCommand}"/>
+            <Label Content="{Binding OutputPath}" Grid.Column="1"/>
+        </Grid>
+        <Button Content="Process" HorizontalAlignment="Center" Width="80" Height="30" Margin="0, 20, 0, 0"
                 Command="{Binding StartProcessCommand}"/>
-    </Grid>
+    </StackPanel>
 </Window>

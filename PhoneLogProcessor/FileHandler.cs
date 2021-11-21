@@ -63,7 +63,7 @@ namespace PhoneLogProcessor
         {
             List<Area> readedList = new List<Area>();
 
-            foreach (string line in File.ReadLines(path))
+            foreach (string line in File.ReadLines(path, Encoding.Latin1))
             {
                 string[] columns = line.Split('\t');
 
@@ -83,7 +83,7 @@ namespace PhoneLogProcessor
         {
             List<Country> readedList = new List<Country>();
 
-            foreach (string line in File.ReadLines(path))
+            foreach (string line in File.ReadLines(path, Encoding.Latin1))
             {
                 string[] columns = line.Split('\t');
 

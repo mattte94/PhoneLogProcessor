@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PhoneLogProcessor.Models
+﻿namespace PhoneLogProcessor.Models
 {
     public class Area
     {
-        public int DistrictId { get; set; }
         public int CountryId { get; set; }
+        public int DistrictId { get; set; }
         public string Name { get; set; }
 
-        public Area(int districtId, int countryId, string name)
+        public Area(int countryId, int districtId, string name)
         {
-            DistrictId = districtId;
             CountryId = countryId;
+            DistrictId = districtId;
             Name = name;
         }
     }

@@ -2,6 +2,9 @@
 
 namespace PhoneLogProcessor.Models
 {
+    /// <summary>
+    /// Input.txt fájl adatainak tárolására szolgáló osztály.
+    /// </summary>
     public class CallData
     {
         public DateTime CallDate { get; set; }

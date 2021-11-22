@@ -17,6 +17,12 @@ namespace PhoneLogProcessor
         private const string OUTPUT_BACK = "output_back";
 
         //PUBLICS
+
+        /// <summary>
+        /// 3 bemeneti fájl (area.txt, country.txt, input.txt) beolvasása.
+        /// </summary>
+        /// <param name="path">A 3 bemeneti fájlt tartalmazó mappa elérési útvonala.</param>
+        /// <returns></returns>
         public (List<Area>, List<Country>, List<CallData>) FileReading(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -37,6 +43,12 @@ namespace PhoneLogProcessor
             return (ReadArea(Path.Combine(path, AREA)), ReadCountry(Path.Combine(path, COUNTRY)), ReadCallData(Path.Combine(path, INPUT)));
         }
 
+        /// <summary>
+        /// Output.txt fájlba történő adatok mentése.
+        /// </summary>
+        /// <param name="path">Output.txt fájlt tartalmazó mappa elérési útvonala.</param>
+        /// <param name="processCallData">Output.txt fájlba írandó adatok.</param>
+        /// <returns></returns>
         public async Task FileWriting(string path, List<ProcessedCallData> processCallData)
         {
             if (string.IsNullOrEmpty(path))
@@ -58,6 +70,11 @@ namespace PhoneLogProcessor
 
         //PRIVATES
 
+        /// <summary>
+        /// Area.txt fájl adatainak beolvasása és eltárolása.
+        /// </summary>
+        /// <param name="path">Area.txt fájlt tartalmazó mappa elérési útvonala.</param>
+        /// <returns></returns>
         private List<Area> ReadArea(string path)
         {
             List<Area> readedAreaList = new List<Area>();
@@ -78,6 +95,11 @@ namespace PhoneLogProcessor
             return readedAreaList;
         }
 
+        /// <summary>
+        /// Country.txt fájl adatainak beolvasása és eltárolása.
+        /// </summary>
+        /// <param name="path">Country.txt fájlt tartalmazó mappa elérési útvonala.</param>
+        /// <returns></returns>
         private List<Country> ReadCountry(string path)
         {
             List<Country> readedCountryList = new List<Country>();
@@ -97,6 +119,11 @@ namespace PhoneLogProcessor
             return readedCountryList;
         }
 
+        /// <summary>
+        /// Input.txt fájl adatainak beolvasása és eltárolása.
+        /// </summary>
+        /// <param name="path">Input.txt fájlt tartalmazó mappa elérési útvonala.</param>
+        /// <returns></returns>
         private List<CallData> ReadCallData(string path)
         {
             List<CallData> readedCallDataList = new List<CallData>();
@@ -118,6 +145,10 @@ namespace PhoneLogProcessor
             return readedCallDataList;
         }
 
+        /// <summary>
+        /// Backup fájl készítése egy korábban létező output.txt fájlból.
+        /// </summary>
+        /// <param name="path">Output.txt fájlt tartalmazó mappa elérési útvonala.</param>
         private void CreateBackUp(string path) => File.Move(Path.Combine(path, OUTPUT), Path.Combine(path, $"{OUTPUT_BACK}_{File.GetCreationTime(Path.Combine(path, OUTPUT)):HH_mm_ss}.txt"));
     }
 }

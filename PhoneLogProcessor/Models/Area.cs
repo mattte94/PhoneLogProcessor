@@ -1,5 +1,8 @@
 ﻿namespace PhoneLogProcessor.Models
 {
+    /// <summary>
+    /// Körzet adatainak tárolására szolgáló osztály.
+    /// </summary>
     public class Area
     {
         public int CountryId { get; set; }

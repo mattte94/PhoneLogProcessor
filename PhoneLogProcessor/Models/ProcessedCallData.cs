@@ -1,5 +1,8 @@
 ﻿namespace PhoneLogProcessor.Models
 {
+    /// <summary>
+    /// Output.txt fájlba írandó adatok tárolására szolgáló osztály.
+    /// </summary>
     public class ProcessedCallData
     {
         public string CountryName { get; set; }

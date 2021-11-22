@@ -7,6 +7,7 @@ namespace PhoneLogProcessor.Logic
 {
     public class DataLogic : IDataLogic
     {
+        //MEMBERS
         private List<Country> Countries;
         private List<Area> Areas;
         private List<CallData> CallData;
@@ -15,6 +16,12 @@ namespace PhoneLogProcessor.Logic
         private IEnumerable<int> areaLengths;
         private readonly IFileHandler fileHandler = new FileHandler();
 
+        //PUBLICS
+
+        /// <summary>
+        /// A 3 fájlból (area.txt, country.txt, input.txt) való adatok beolvasása és eltárolása.
+        /// </summary>
+        /// <param name="path">A 3 fájlt tartalmazó mappa elérési útvonala.</param>
         public void LoadDataFromFiles(string path)
         {
             var result = fileHandler.FileReading(path);
@@ -23,17 +30,31 @@ namespace PhoneLogProcessor.Logic
             CallData = result.callData;
         }
 
+        /// <summary>
+        /// Műveletek végrehajtás és az eredmény eltárolása.
+        /// </summary>
         public void Process()
         {
             countryLengths = Countries.Select(x => x.CountryId.ToString().Length).Distinct();
             areaLengths = Areas.Select(x => x.DistrictId.ToString().Length).Distinct();
             ProcessedCallData = GeneratedData();
         }
+
+        /// <summary>
+        /// Az eredmény fájlba való kiíratása (output.txt)
+        /// </summary>
+        /// <param name="path">Mappa elérési útvonala, ahova az output.txt el fog tárolódni.</param>
         public void WriteDataToFile(string path)
         {
             fileHandler.FileWriting(path, ProcessedCallData);
         }
 
+        //PRIVATES
+
+        /// <summary>
+        /// Adatok legenerálása a bejövő adatok alapján.
+        /// </summary>
+        /// <returns>Output.txt fájlba mentendő adatok listája.</returns>
         private List<ProcessedCallData> GeneratedData()
         {
             var list = new List<ProcessedCallData>();
@@ -59,6 +80,14 @@ namespace PhoneLogProcessor.Logic
             return (List<ProcessedCallData>)list.OrderByDescending(x => x.CountryName).ThenBy(y => y.DistrictName).ToList();
         }
 
+        /// <summary>
+        /// A hívott fél telefonszáma alapján az ország lekérése történik.
+        /// Visszatérési érték egy Tuple, melynek adatai:
+        /// - az ország összes adata
+        /// - az ország hívókódjának a hossza
+        /// </summary>
+        /// <param name="data">Hívott fél telefonszámát tartalmazó input adat</param>
+        /// <returns></returns>
         private (Country country, int length) GetCountry(CallData data)
         {
             string number = data.CalledPersonPhoneNumber.Trim('+');
@@ -74,6 +103,13 @@ namespace PhoneLogProcessor.Logic
             throw new Exception();
         }
 
+        /// <summary>
+        /// A GetCoutry visszatérési értéke és a hívott fél telefonszáma alapján a körzet lekérése történik.
+        /// Visszatérési érték a megtalált Körzet adatai lesznek
+        /// </summary>
+        /// <param name="countryTuple">Ország adatai, ország hívókódjának hossza</param>
+        /// <param name="data">Hívott fél telefonszámát tartalmazó input adat</param>
+        /// <returns></returns>
         private Area GetArea((Country country, int length) countryTuple, CallData data)
         {
             var areas = Areas.Where(x => countryTuple.country.CountryId == x.CountryId);

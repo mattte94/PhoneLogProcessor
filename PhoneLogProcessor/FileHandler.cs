@@ -14,7 +14,6 @@ namespace PhoneLogProcessor
         private const string COUNTRY = "country.txt";
         private const string INPUT = "input.txt";
         private const string OUTPUT = "output.txt";
-        private const string OUTPUT_BACK = "output_back";
 
         //PUBLICS
 
@@ -49,7 +48,7 @@ namespace PhoneLogProcessor
         /// <param name="path">Output.txt fájlt tartalmazó mappa elérési útvonala.</param>
         /// <param name="processCallData">Output.txt fájlba írandó adatok.</param>
         /// <returns></returns>
-        public async Task FileWriting(string path, List<ProcessedCallData> processCallData)
+        public async Task FileWritingAsync(string path, List<ProcessedCallData> processCallData)
         {
             if (string.IsNullOrEmpty(path))
                 throw new NullReferenceException();
@@ -58,7 +57,7 @@ namespace PhoneLogProcessor
                 throw new FileNotFoundException();
 
             if (File.Exists(Path.Combine(path, OUTPUT)))
-                CreateBackUp(path);
+                throw new Exception("Output.txt already exists!");
 
             using StreamWriter file = new(Path.Combine(path, OUTPUT));
 
@@ -144,11 +143,5 @@ namespace PhoneLogProcessor
 
             return readedCallDataList;
         }
-
-        /// <summary>
-        /// Backup fájl készítése egy korábban létező output.txt fájlból.
-        /// </summary>
-        /// <param name="path">Output.txt fájlt tartalmazó mappa elérési útvonala.</param>
-        private void CreateBackUp(string path) => File.Move(Path.Combine(path, OUTPUT), Path.Combine(path, $"{OUTPUT_BACK}_{File.GetCreationTime(Path.Combine(path, OUTPUT)):HH_mm_ss}.txt"));
     }
 }

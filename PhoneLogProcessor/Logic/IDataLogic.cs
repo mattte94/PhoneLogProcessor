@@ -1,9 +1,11 @@
-﻿namespace PhoneLogProcessor.Logic
+﻿using System.Threading.Tasks;
+
+namespace PhoneLogProcessor.Logic
 {
     public interface IDataLogic
     {
-        public void LoadDataFromFiles(string path);
-        public void Process();
-        public void WriteDataToFile(string path);
+        void LoadDataFromFiles(string path);
+        void Process();
+        Task WriteDataToFileAsync(string path);
     }
 }

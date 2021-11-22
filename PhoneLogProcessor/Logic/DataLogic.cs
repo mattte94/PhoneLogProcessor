@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PhoneLogProcessor.Logic
 {
@@ -44,9 +45,9 @@ namespace PhoneLogProcessor.Logic
         /// Az eredmény fájlba való kiíratása (output.txt)
         /// </summary>
         /// <param name="path">Mappa elérési útvonala, ahova az output.txt el fog tárolódni.</param>
-        public void WriteDataToFile(string path)
+        public async Task WriteDataToFileAsync(string path)
         {
-            fileHandler.FileWriting(path, ProcessedCallData);
+            await fileHandler.FileWritingAsync(path, ProcessedCallData);
         }
 
         //PRIVATES

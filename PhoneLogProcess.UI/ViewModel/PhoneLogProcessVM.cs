@@ -1,10 +1,5 @@
 ﻿using PhoneLogProcessor.Logic;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PhoneLogProcess.UI.ViewModel
@@ -57,7 +52,7 @@ namespace PhoneLogProcess.UI.ViewModel
             }
         }
 
-        private void StartProcessFunction(object obj)
+        private async void StartProcessFunction(object obj)
         {
             if (string.IsNullOrEmpty(inputPath))
             {
@@ -75,7 +70,7 @@ namespace PhoneLogProcess.UI.ViewModel
             {
                 logic.LoadDataFromFiles(inputPath);
                 logic.Process();
-                logic.WriteDataToFile(outputPath);
+                await logic.WriteDataToFileAsync(outputPath);
                 MessageBox.Show("Data process finished.", "Info!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
